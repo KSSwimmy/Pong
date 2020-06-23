@@ -31,7 +31,11 @@ ball.speed(0)
 ball.shape("square")
 ball.color("white")
 ball.penup()
-ball.goto(0,0)
+ball.goto(0,0) # the ball is centered
+# d means delta. dx and dy means everytime our ball moves it moves 2px
+ball.dx = 1.0 # This moves to the right 2px
+ball.dy = 1.0 # This moves up 2px
+# allowing the ball to move diagonally 
 
 # Function for paddle A to go up
 def paddle_a_up(): 
@@ -51,12 +55,42 @@ def paddle_a_down():
     paddle_a.sety(y)
 
 #Keyboard binding 
-window.listen() # An event listener for the window 
+
 window.onkeypress(paddle_a_down, "s") # when "w" is pressed 
 
+#/////////////////////////////////////////////////////////////////////////
 
+# Function for paddle B to go up
+def paddle_b_up(): 
+    y = paddle_b.ycor() # y coordinate (from turtle)
+    y += 20
+    paddle_b.sety(y)
+
+#Keyboard binding 
+window.onkeypress(paddle_b_up, "Up") # when "Up" (arrow key) is pressed 
+
+
+# Function for paddle to go up
+def paddle_b_down(): 
+    y = paddle_b.ycor() # x coordinate (from turtle)
+    y -= 20
+    paddle_b.sety(y)
+
+#Keyboard binding 
+
+window.onkeypress(paddle_b_down, "Down") # when "Down" (arrow key) is pressed 
 
 
 # Main Game Loop
 while True: 
     window.update() # everytime the loop runs it updates the screen. With out this IT WILL NOT WORK! THE SCREEN WILL NOT SHOW!
+
+    # Move the ball 
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+
+
+    # Border checking
+    if ball.ycor() > 290: # if the current ycor is grater than 290
+        ball.sety(290) # we set it back to 290
+        ball.dy *= -1 # and this reverses the direction
