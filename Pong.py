@@ -1,4 +1,5 @@
 import turtle #turtle module is a module that lets you do basic graphics
+import os
 
 #window
 window = turtle.Screen() # 
@@ -36,6 +37,19 @@ ball.goto(0,0) # the ball is centered
 ball.dx = 1.0 # This moves to the right 2px
 ball.dy = -1.0 # This moves up 2px
 # allowing the ball to move diagonally 
+
+# Pen - The default score on the screen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle() # hiding the object
+pen.goto(0, 260)
+pen.write("Player A: 0 Player B: 0", align="center", font=("Courier", 24, "normal")) 
+
+# Score
+score_a = 0 
+score_b = 0
 
 # Function for paddle A to go up
 def paddle_a_up(): 
@@ -90,31 +104,45 @@ while True:
     ball.sety(ball.ycor() + ball.dy)
 
 
-    # Border checking
+    # top order checking
     if ball.ycor() > 290: # if the current ycor is grater than 290
         ball.sety(290) # we set it back to 290
         ball.dy *= -1 # and this reverses the direction
+        os.system("afplay bounce.wav&") # sound
 
-    # Top and bottom Border checking
+    # bottom Border checking
     if ball.ycor() < -290: # if the current ycor is grater than 290
         ball.sety(-290) # we set it back to 290
         ball.dy *= -1 # and this reverses the direction
+        os.system("afplay bounce.wav&")
 
-    # Left and right border
+    # right side border
     if ball.xcor() > 390: # if the ball is going past the paddle and it's off the screen
         ball.goto(0, 0) # then the ball will be put back to the center
         ball.dx *= -1 # and this reverses the direction
+        score_a += 1 
+        pen.clear()
+        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal")) 
 
+
+    # left side border
     if ball.xcor() < -390: # if the ball is going past the paddle and it's off the screen
         ball.goto(0, 0) # then the ball will be put back to the center
         ball.dx *= -1 # and this reverses the direction
+        score_b += 1
+        pen.clear()
+        pen.write("Player A: {} PlayerB: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal")) 
+
 
     #Paddle b and ball collisions
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40): 
             ball.setx(340)
             ball.dx *= -1 
+            os.system("afplay bounce.wav&")
+
 
     #Paddle a and ball collisions
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -40): 
             ball.setx(-340)
             ball.dx *= -1 
+            os.system("afplay bounce.wav&")
