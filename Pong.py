@@ -34,7 +34,7 @@ ball.penup()
 ball.goto(0,0) # the ball is centered
 # d means delta. dx and dy means everytime our ball moves it moves 2px
 ball.dx = 1.0 # This moves to the right 2px
-ball.dy = 1.0 # This moves up 2px
+ball.dy = -1.0 # This moves up 2px
 # allowing the ball to move diagonally 
 
 # Function for paddle A to go up
@@ -94,3 +94,27 @@ while True:
     if ball.ycor() > 290: # if the current ycor is grater than 290
         ball.sety(290) # we set it back to 290
         ball.dy *= -1 # and this reverses the direction
+
+    # Top and bottom Border checking
+    if ball.ycor() < -290: # if the current ycor is grater than 290
+        ball.sety(-290) # we set it back to 290
+        ball.dy *= -1 # and this reverses the direction
+
+    # Left and right border
+    if ball.xcor() > 390: # if the ball is going past the paddle and it's off the screen
+        ball.goto(0, 0) # then the ball will be put back to the center
+        ball.dx *= -1 # and this reverses the direction
+
+    if ball.xcor() < -390: # if the ball is going past the paddle and it's off the screen
+        ball.goto(0, 0) # then the ball will be put back to the center
+        ball.dx *= -1 # and this reverses the direction
+
+    #Paddle b and ball collisions
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40): 
+            ball.setx(340)
+            ball.dx *= -1 
+
+    #Paddle a and ball collisions
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -40): 
+            ball.setx(-340)
+            ball.dx *= -1 
